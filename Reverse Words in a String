@@ -1,0 +1,62 @@
+class Solution {
+public:
+
+	void reverseall(string& sa,int beginchar,int endchar){
+
+		char tmp;
+		
+		for(string::size_type ix=beginchar;ix<(endchar+1+beginchar)/2;ix++){
+			tmp = sa[ix];
+			sa[ix]= sa[endchar+beginchar-ix];
+			sa[endchar+beginchar-ix]=tmp;
+		}
+	}
+
+	void reverseWords(string &s) {
+	    if(s.size()==0){
+			s="";
+			return;
+		}
+        //cout<<"原始字符串:"<<s<<endl;
+		//忽略首尾空格
+		string::size_type spacebegin=0;
+		string::size_type spaceend=s.size()-1;
+		
+		while(spacebegin!=s.size()&&s[spacebegin]==' ')
+			spacebegin++;
+		if(spacebegin==s.size()){
+			s="";
+			return;
+		}
+		while(spaceend!=-1&&s[spaceend]==' ')
+			spaceend--;
+		int oldsize = s.size();
+		//cout<<"length:"<<oldsize<<" 开始字节:"<<spacebegin<<" 终止字节:"<<spaceend<<endl;
+		//翻转除去首尾空格的整体字符串
+		reverseall(s,spacebegin,spaceend);
+
+		//将各个单词存入vector中
+		vector<string> strList;		
+		for(int i=spacebegin;i<=spaceend;){
+			int j=i;
+			while(j<s.size()&&s[j]!=' ')
+				j++;
+			//cout<<s.substr(i,j-i)<<endl;
+			strList.push_back(s.substr(i,j-i));
+			while(s[j]==' ')
+				j++;
+			i=j;
+		}
+		
+		s="";
+		for(vector<string>::size_type ix = 0;ix!=strList.size();++ix){
+			reverseall(strList[ix],0,strList[ix].size()-1);
+			//cout<<ix<<":"<<strList[ix]<<endl;
+			s += strList[ix]+" ";
+		}
+		s = s.substr(0,s.size()-1);
+	
+
+		//cout<<"修改后字符串:"<<s<<endl;
+    }
+};
