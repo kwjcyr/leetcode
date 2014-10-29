@@ -1,0 +1,77 @@
+class Solution {
+public:
+	int maxPro(int A[],int m,int n){
+	
+		if(n-m==0)
+			return A[m];
+		int max = A[m];
+		for(int i=m+1;i<=n;i++){
+			max *= A[i];
+		}
+		if(max>0)
+			return max;
+		else{
+			if(n-m==1)
+				max = A[m+1]>A[m]?A[m+1]:A[m];
+			if(max<0){
+				int fromhead=A[m];
+				int fi;
+				for(fi=m+1;fi<=n&&fromhead>0;fi++){
+					fromhead *= A[fi];
+					//cout<<fi<<" "<<fromhead<<endl;
+				}
+				//cout<<fromhead<<endl;
+
+				int fromtail=A[n];
+				int ft;
+				for(ft=n-1;ft>-1&&fromtail>m;ft--){
+					fromtail *= A[ft];
+					//cout<<ft<<" "<<fromtail<<endl;
+				}
+				//cout<<fromtail<<endl;
+			
+				max = (max/fromhead)>(max/fromtail)?(max/fromhead):(max/fromtail);
+
+				//cout<<max<<endl;
+				
+			}
+		}
+
+		return max;
+	
+	}
+	int maxProduct(int A[], int n) {
+		int max = A[0];
+		for(int i=1;i<n;i++){
+			max *= A[i];
+		}
+		if(max==0){
+			if(n==1)
+				return A[0];
+			if(n==2)
+				return A[1]>A[0]?A[1]:A[0];
+			if(n>2){
+
+				int i=0,j=0;
+				for(;i<n;i++){
+					while(A[i]==0){
+						i++;
+						j++;
+					}
+
+					int j=i+1;
+					while(A[j]!=0&&j<n){
+						j++;
+					}
+					j--;
+					//cout<<"["<<i<<","<<j<<"]="<<maxPro(A,i,j)<<endl;
+					max = maxPro(A,i,j)>max?maxPro(A,i,j):max;
+					i=j;
+				}
+			}
+		}else{
+			max = maxPro(A,0,n-1);
+		}
+		return max;
+	}
+};
