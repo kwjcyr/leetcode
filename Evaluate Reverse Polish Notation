@@ -1,0 +1,32 @@
+class Solution {
+public:
+	int evalRPN(vector<string> &tokens) {
+		stack<int> ss;
+		int value_a,value_b;
+		for (int i=0;i<tokens.size();i++){
+			if (tokens[i]!="+"&&tokens[i]!="-"&&tokens[i]!="*"&&tokens[i]!="/"){
+				ss.push(atoi(tokens[i].c_str()));
+			}else if (tokens[i]=="+"||tokens[i]=="-"||tokens[i]=="*"||tokens[i]=="/"){
+				value_b = ss.top();
+				ss.pop();
+				value_a = ss.top();
+				ss.pop();
+				if (tokens[i]=="+")
+				{
+					value_a = value_a+value_b;
+				}else if (tokens[i]=="-")
+				{
+					value_a = value_a-value_b;
+				}else if (tokens[i]=="*")
+				{
+					value_a = value_a*value_b;
+				}else if (tokens[i]=="/")
+				{
+					value_a = value_a/value_b;
+				}
+				ss.push(value_a);
+			}
+		}
+		return ss.top();
+	}
+};
